@@ -31,4 +31,4 @@ Il titolo della pull request sarà: `"@{tuo_username}: Appunti lezione 26-02-202
 <a href="https://github.com/unipr-org/AI/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=unipr-org/AI" />
 </a>
-Made with [contrib.rocks](https://contrib.rocks).
+
