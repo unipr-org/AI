@@ -25,10 +25,7 @@ Il nome file sarà: `01-helloworld.md`.
 Il titolo del commit sarà: `"@{tuo_username}: Aggiunti appunti lezione 01-helloworld"`.  
 Il titolo della pull request sarà: `"@{tuo_username}: Appunti lezione 26-02-2023"`.  
 
----
-
 ## Contributors
 <a href="https://github.com/unipr-org/AI/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=unipr-org/AI" />
 </a>
-
