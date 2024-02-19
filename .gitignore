@@ -1,0 +1,6 @@
+**/.obsidian/**
+**/.vscode/**
+**/.DS_Store
+*.out
+**/tasks/**
+*.psd
