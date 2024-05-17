@@ -1,0 +1,28 @@
+modificata([],[]).
+
+modificata([H|T1],[D|T2]):-
+    H >= -10,
+    H =< 0,
+    D is H-1,
+    modificata(T1,T2).
+
+modificata([H|T1],[I|T2]):-
+    H >= 1,
+    H =< 10,
+    I is H+1,
+    modificata(T1,T2).
+
+modificata([H|T1],[H,H|T2]):-
+    H >= 10,
+    H =< 20,
+    modificata(T1,T2).
+    
+modificata([H|T1],L2):- 
+    H >= -20,
+    H =< -11,
+    modificata(T1,L2).
+
+    
+  
+    
+    

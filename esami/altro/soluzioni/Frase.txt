@@ -1,0 +1,33 @@
+articolo(il).
+
+nome(cane).
+nome(gatto).
+nome(topo).
+nome(canarino).
+
+verbo(osserva).
+verbo(vede).
+verbo(rincorre).
+verbo(cattura).
+
+che(che).
+
+frase(L) :- snominaleart(L).
+
+snominaleart([H|R]) :- articolo(H),
+    	snominalename(R).
+
+snominalename([H|R]) :- nome(H),
+    	sverbaleche(R).
+
+snominalename([H|R]) :- nome(H),
+    	sverbalewoche(R).
+sverbaleche([]).
+sverbaleche([H|R]) :- che(H), sverbalewoche(R).
+sverbalewoche([]).
+sverbalewoche([H|R]) :- verbo(H),
+    	snominaleart(R).
+
+
+
+

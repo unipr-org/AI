@@ -1,0 +1,36 @@
+sum(X,Y,Z) :- 
+    Z is X+Y.
+
+mul(X,Y,Z) :- 
+    Z is X*Y.
+
+leq(sum(X,Y), Z) :- 
+    sum(X,Y,Sum),
+    Sum =< Z.
+
+leq(mul(X,Y), Z) :- 
+    mul(X,Y,Prod),
+    Prod =< Z.
+
+leq(Z, sum(X,Y)) :- 
+    sum(X,Y,Sum),
+    Sum =< Z.
+
+leq(Z, mul(X,Y)) :- 
+    mul(X,Y,Prod),
+    Prod =< Z.
+
+testmember([],_).
+testmember([H|R],L):-
+    member(H,L), testmember(R,L).
+
+testvinc([]).
+testvinc([H|R]) :-
+    H = leq(X,Y),
+    leq(X,Y),
+    testvinc(R).
+
+soluzioni(V, D, C) :-
+	testmember(V, D), 
+    testvinc(C).
+

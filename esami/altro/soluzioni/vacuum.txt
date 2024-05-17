@@ -1,0 +1,69 @@
+% Scrivere un predicato Prolog pianifica(S0, SG, P) in grado di costruire un piano P per portare lo del mondo da S0  iniziale) a Sn approccio tipoo da STRIPS con forward chaining.
+% Gli stati sono rappresentati mediante liste di termini ground, ognuno dei quali rappresenta un fatto. 
+% Il piano è rappresentato da una lista di termini ground che indica la sequenza di azioni da svolgere, nell'ordine di apparizione nella lista, per andare dallo iniziale allo goal. 
+% Ogni azione è rappresentata mediante regole Prolog del tipo azione(N, P, A, D), dove N è il nome dell'azione, P è la lista che rappresenta le precondizioni dell'azione, A è la add list dell'azione e D è la delete list dell'azione.
+
+% Per verificare la correttezza del predicato pianifica/3, lo si utilizzi per realizzare il predicato vacuum/2. Il predicato vacuum/2 permette di risolvere i problemi di pianificazione nel vacuum world a 7 celle. 
+% Il mondo viene rappresentato da una lista di 7 costanti, ognuna delle quali può essere v (l'aspirapolvere), e (una cella pulita) e x (una cella sporca). 
+% Dato uno iniziale, l'obiettivo del predicato vacuum/2 è quello di costruire un piano che consenta all'aspirapolvere di pulire tutto e di riportarsi nel centro del mondo.
+
+% Ad esempio:
+
+% ?- vacuum([x, e, e, v, e, x, x], P)
+% P = [
+%   sinistra, sinistra, sinistra, aspira, 
+%   destra, destra, destra, destra, destra, aspira, destra, aspira,
+%   sinistra, sinistra, sinistra
+% ]
+% Per la realizzazione dei predicati pianifica/3 e vacuum/2 è consentito unicamente l'utilizzo dei predicati visti a lezione e non è consentito l'utilizzo della programmazione logica con vincoli.
+
+vacuum(S, P) :- pianifica(S, [e, e, e, v, e, e, e], P),
+    open('vacuum.txt', append, Stream), 
+    write(Stream, P), 
+    nl(Stream), 
+    close(Stream).
+
+% o: Aspirapolvere in posizione sporca
+% v: Aspirapolvere in posizione pulita
+azione(aspira, [o, B, C, e, D, E, F], [v, B, C, e, D, E, F]).
+azione(aspira, [A, o, C, e, D, E, F], [A, v, C, e, D, E, F]).
+azione(aspira, [A, B, o, e, D, E, F], [A, B, v, e, D, E, F]).
+azione(aspira, [A, B, C, e, o, E, F], [A, B, C, e, v, E, F]).
+azione(aspira, [A, B, C, e, D, o, F], [A, B, C, e, D, v, F]).
+azione(aspira, [A, B, C, e, D, E, o], [A, B, C, e, D, E, v]).
+
+% Movimento verso sinistra partendo dal centro (possibilità di incontrare sporco).
+azione(sinistra, [A, B, x, v, D, E, F], [A, B, o, e, D, E, F]).
+azione(sinistra, [A, B, e, v, D, E, F], [A, B, v, e, D, E, F]) :- B \= 'e', !.
+azione(sinistra, [A, B, e, v, D, E, F], [A, B, v, e, D, E, F]) :- A \= 'e', !.
+
+azione(sinistra, [A, x, v, e, D, E, F], [A, o, e, e, D, E, F]).
+azione(sinistra, [A, e, v, e, D, E, F], [A, v, e, e, D, E, F]) :- A \= 'e', !.
+
+azione(sinistra, [x, v, e, e, D, E, F], [o, e, e, e, D, E, F]).
+
+% Movimento verso sinistra partendo dal lato destro (già pulito) per riportarsi al centro.
+azione(sinistra, [A, B, C, e, e, e, v], [A, B, C, e, e, v, e]).
+azione(sinistra, [A, B, C, e, e, v, e], [A, B, C, e, v, e, e]).
+azione(sinistra, [A, B, C, e, v, e, e], [A, B, C, v, e, e, e]).
+
+% Movimento verso destra partendo dal centro (possibilità di incontrare sporco).
+azione(destra, [A, B, C, v, x, E, F], [A, B, C, e, o, E, F]).
+azione(destra, [A, B, C, v, e, E, F], [A, B, C, e, v, E, F]) :- E \= 'e', !.
+azione(destra, [A, B, C, v, e, E, F], [A, B, C, e, v, E, F]) :- F \= 'e', !. 
+
+azione(destra, [A, B, C, e, v, x, F], [A, B, C, e, e, o, F]).
+azione(destra, [A, B, C, e, v, e, F], [A, B, C, e, e, v, F]) :- F \= 'e', !.
+
+azione(destra, [A, B, C, e, e, v, x], [A, B, C, e, e, e, o]).
+
+% Movimento verso destra partendo dal lato sinistro (già pulito) per riportarsi al centro.
+azione(destra, [v, e, e, e, D, E, F], [e, v, e, e, D, E, F]).
+azione(destra, [e, v, e, e, D, E, F], [e, e, v, e, D, E, F]).
+azione(destra, [e, e, v, e, D, E, F], [e, e, e, v, D, E, F]).
+
+pianifica(_, [e, e, e, v, e, e, e], []).
+pianifica(S0, SG, P) :-
+    P = [Azione | PianoParziale],
+    azione(Azione, S0, S),
+    pianifica(S, SG, PianoParziale).

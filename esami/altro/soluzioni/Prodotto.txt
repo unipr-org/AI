@@ -1,0 +1,2 @@
+prodotto([],[1,-1]).
+prodotto([H|R],[P,PN]) :- prodotto(R,[P1,_]), P is P1 * H, PN is -P.
