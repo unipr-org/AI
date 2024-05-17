@@ -1,0 +1,238 @@
+1.
+La funzione in questione è 
+6x^2 - 12x + 4y^2 - 8y + 10.
+
+Ammette un minimo in (1,1) dove il risultato è 0.
+
+Si può usare l'algoritmo di discesa del gradiente per cercare
+un minimo all'interno della funzione.
+Questo algoritmo ha come input la funzione, il valore di input
+e un  coefficiente di apprendimento, ad ogni passo si calcola il
+gradiente della funzione per il dato input, si valuta se la
+funzione è in un minimo e, qualora non lo fosse, in che direzione
+e di quanto "muoversi" per raggiungere un minimo e si modifica 
+il valore di input aggiungendo ad esso il coefficiente di
+apprendimento per il valore (direzione) calcolato.
+
+2.
+% L'elemento non è membro della lista 
+not_member(_,[]).
+not_member(X,[H|R]):-
+    X\=H,
+    not_member(X,R).
+
+% Tutti gli elementi son differenti
+check_diversita([_]).
+check_diversita([H|R]):- 
+    not_member(H,R),
+    check_diversita(R).
+
+% Tutti gli elementi della secondaria appartengono alla primaria
+check_appartenenza_primaria([],_).
+check_appartenenza_primaria([H|R],P):-
+    member(H,P),
+    check_appartenenza_primaria(R,P).
+
+% per ogni 1 ≤ i ≤ m dispari vale 2 bi = bi+1
+check_dispari([]).
+check_dispari([_]).
+check_dispari([E1,E2|R]):-
+    E2 is E1 * 2, 
+    check_dispari(R).
+
+
+secondaria([],_).
+secondaria(P,S):-
+    length(P, LengthP), 
+    secondaria(P,S,LengthP).  
+
+secondaria(P,S,LengthP):-
+    length(S, LengthP), 
+    % m è pari
+    Resto is mod(LengthP,2),
+    Resto = 0,
+    % tutti gli elementi della secondaria appartengono alla primaria
+    check_appartenenza_primaria(S,P),
+    % tutti diversi 
+   	check_diversita(S), 
+    % gli elementi con indice dispari sono la metà di quelli che li seguono
+    check_dispari(S),
+    !.	% Parto da lunghezza della primaria, accorciando di 1 ad ogni iterazione
+		% La prima che trovo è necessariamente la più lunga
+
+secondaria(P,S,LengthP):-
+    LengthShorter is LengthP -1, % Accorcio di 1
+    secondaria(P,S,LengthShorter).
+
+3.
+Bisogna ricavare tutte le soluzioni singole come lista e mettere
+tutte queste all'interno di una lista di liste. 
+Ho fatto qualche predicato per estrarre le soluzioni e commentato 
+come si sarebbe dovuto finire l'esercizio.
+
+4. Risposta data (scorri giù per quella migliorata (?))
+% Tutte le mosse possibili
+mosse([
+       mossa(1,2),
+       mossa(1,3),
+       mossa(1,4),
+       mossa(1,5),
+       mossa(1,6),
+       mossa(1,7),
+        
+       mossa(2,2),
+       mossa(2,3),
+       mossa(2,4),
+       mossa(2,5),
+       mossa(2,6),
+       mossa(2,7),
+      
+       mossa(3,2),
+       mossa(3,3),
+       mossa(3,4),
+       mossa(3,5),
+       mossa(3,6),
+       mossa(3,7),
+        
+       mossa(4,2),
+       mossa(4,3),
+       mossa(4,4),
+       mossa(4,5),
+       mossa(4,6),
+       mossa(4,7)
+      ]).
+
+% situazione fiammiferi, punteggio da usare per Minimax
+stati_griglia([
+               stato([0,_,_,_],2),
+               stato([_,0,_,_],2),
+               stato([_,_,0,_],2),
+               stato([_,_,_,0],2),
+               stato([_,_,_,_],1)]).
+
+% Tansizione che con una mossa porta in un dato stato
+transizione(M,S):-
+    mosse(Ms),
+    M = mossa(F, C),
+    member(M,Ms),
+    stati_griglia(Ss), 
+    S = stato(G,P).       
+
+nim([N1, N2, N3, N4], mossa(F, C)):-
+    mosse(Ms),
+    M = mossa(F, C),
+    member(M,Ms),
+    stati_griglia(Ss), 
+    S = stato(G,2), 	% Giocata vincente
+    transizione(M,S).
+               
+nim([N1, N2, N3, N4], M):-
+    mosse(Ms),
+    M = mossa(F, C),
+    member(M,Ms),
+    stati_griglia(Ss), 
+    S = stato(G,P),
+    transizione(M,S).
+    
+4. Risposta modificata
+% Tutte le mosse possibili
+mosse([
+       mossa(1,2),
+       mossa(1,3),
+       mossa(1,4),
+       mossa(1,5),
+       mossa(1,6),
+       mossa(1,7),
+        
+       mossa(2,2),
+       mossa(2,3),
+       mossa(2,4),
+       mossa(2,5),
+       mossa(2,6),
+       mossa(2,7),
+      
+       mossa(3,2),
+       mossa(3,3),
+       mossa(3,4),
+       mossa(3,5),
+       mossa(3,6),
+       mossa(3,7),
+        
+       mossa(4,2),
+       mossa(4,3),
+       mossa(4,4),
+       mossa(4,5),
+       mossa(4,6),
+       mossa(4,7)
+      ]).
+
+% situazione fiammiferi, punteggio da usare per Minimax
+stati_griglia([
+               stato([N,0,0,0],4),
+               stato([0,N,0,0],4),
+               stato([0,0,N,0],4),
+               stato([0,0,0,N],4),
+               stato([N1,N2,0,0],3),
+               stato([0,N1,N2,0],3),
+               stato([0,0,N1,N2],3),
+               stato([N1,0,0,N2],3),
+               stato([0,N1,N2,N3],2), 
+	       stato([N1,0,N2,N3],2),           
+               stato([N1,N2,0,N3],2),
+               stato([N1,N2,N3,0],2),
+               stato([N1,N2,N3,N4],1)
+              ]).
+
+collegamenti([
+             collegamento(stato([N,0,0,0],4),mossa(1,N-1)),
+             collegamento(stato([0,N,0,0],4),mossa(2,N-1)),
+             collegamento(stato([0,0,N,0],4),mossa(3,N-1)),
+             collegamento(stato([0,0,0,N],4),mossa(4,N-1)),
+               
+             collegamento(stato([N1,N2,0,0],3),mossa(1,N1)),
+             collegamento(stato([N1,N2,0,0],3),mossa(2,N2)),
+             collegamento(stato([0,N1,N2,0],3),mossa(2,N1)),
+             collegamento(stato([0,N1,N2,0],3),mossa(3,N2)),
+             collegamento(stato([0,0,N1,N2],3),mossa(3,N1)),
+             collegamento(stato([0,0,N1,N2],3),mossa(4,N2)),
+             collegamento(stato([N1,0,0,N2],3),mossa(1,N1)),
+             collegamento(stato([N1,0,0,N2],3),mossa(4,N2)),
+             
+             
+             collegamento(stato([N1,N2,N3,0],2),mossa(1,N1)),
+             collegamento(stato([N1,N2,N3,0],2),mossa(2,N2)),
+             collegamento(stato([N1,N2,N3,0],2),mossa(3,N3)),
+             collegamento(stato([0,N1,N2,N3],2),mossa(2,N1)),
+             collegamento(stato([0,N1,N2,N3],2),mossa(3,N2)),
+             collegamento(stato([0,N1,N2,N3],2),mossa(4,N3)),
+             collegamento(stato([N1,N2,0,N3],2),mossa(1,N1)),
+             collegamento(stato([N1,N2,0,N3],2),mossa(2,N2)),
+             collegamento(stato([N1,N2,0,N3],2),mossa(4,N3)),
+             collegamento(stato([N1,0,N2,N3],2),mossa(1,N1)),
+             collegamento(stato([N1,0,N2,N3],2),mossa(3,N2)),
+             collegamento(stato([N1,0,N2,N3],2),mossa(4,N3)),
+               
+             
+             collegamento(stato([N1,N2,N3,N4],1),mossa(1,N1)),
+             collegamento(stato([N1,N2,N3,N4],1),mossa(2,N2)),
+             collegamento(stato([N1,N2,N3,N4],1),mossa(3,N3)),
+             collegamento(stato([N1,N2,N3,N4],1),mossa(4,N4))
+             ]).
+
+% Tansizione che con una mossa porta in un dato stato
+transizione(M,S):-
+    collegamenti(Cs),
+    C = collegamento(S,M),
+    member(C,Cs).       
+
+               
+nim([N1, N2, N3, N4], M):-
+    mosse(Ms),
+    M = mossa(F, C),
+    member(M,Ms),
+    stati_griglia(Ss), 
+    S = stato([N1, N2, N3, N4],P),
+    transizione(M,S).
+    
+
+

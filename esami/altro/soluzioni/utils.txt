@@ -1,0 +1,86 @@
+% An element is NOT member of a list
+not_member(_,[]).
+not_member(X,[H|R]):-
+    X\=H,
+    not_member(X,R).
+
+
+% There is no intersection between two sets 
+not_intersection([],_).
+not_intersection([X|R],L2):-
+    not_member(X,L2),
+    not_intersection(R,L2).
+
+
+% There is an intersection between two sets and L3 is that intersection 
+my_intersection([],_,[]).
+my_intersection([X|R1],L2,[X|R3]):-
+    member(X,L2),
+    my_intersection(R1,L2,R3).
+my_intersection([_|R1],L2,L3):-
+    my_intersection(R1,L2,L3).
+
+
+% Union between too sets 
+my_union([], L, L).
+my_union([H1|R1], L2, L3) :-
+        member(H1, L2),
+        my_union(R1, L2, L3).
+my_union([H1|R1], L2, [H1|R3]) :-
+        my_union(R1, L2, R3).
+
+
+% The list is a set
+not_member(_,[]).
+not_member(X,[H|R]):-
+    X\=H,
+    not_member(X,R).
+
+is_set([]).
+is_set([H|R]):-
+    not_member(H,R),
+    is_set(R).
+
+
+% Sort
+contains_all([],_).
+contains_all([H|R],L2):-	% Every element of the first list is member of the second one
+    member(H,L2),
+    contains_all(R,L2).
+
+
+my_sort(List,Sorted):-
+    length(List, Length),
+    length(Sorted, Length),
+    contains_all(List,Sorted),
+	is_sorted(Sorted),!.
+   
+is_sorted([]).
+is_sorted([_]).
+is_sorted([E1,E2|R]):-E1=<E2,is_sorted([E2|R]).
+
+
+% Minimum in a list
+min([],[]).
+min(Min,[Min]).			% Se c'è solo un elemento, quello è il minimo                
+
+min(Min,[E1,E2|R]) :-	
+    E1 =< E2,           % Confronto i primi due elementi e vado avanti col minore                 
+    min(Min,[E1|R]).             
+
+min(Min,[E1,E2|R]) :-
+    E1 > E2,            % Confronto i primi due elementi e vado avanti col minore          
+    min(Min,[E2|R]).
+
+
+% Maximum in a list
+max([],[]).
+max(Max,[Max]).			% Se c'è solo un elemento, quello è il minimo                
+
+max(Max,[E1,E2|R]) :-	
+    E1 >= E2,           % Confronto i primi due elementi e vado avanti col maggiore
+    max(Max,[E1|R]).             
+
+max(Max,[E1,E2|R]) :-
+    E1 < E2,            % Confronto i primi due elementi e vado avanti col maggiore
+    max(Max,[E2|R]).

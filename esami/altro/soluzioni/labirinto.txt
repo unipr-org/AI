@@ -1,0 +1,48 @@
+schema([
+    [e,e,w,w,w,w,w],           
+    [w,e,w,e,w,e,w],
+    [w,e,w,e,w,e,w],
+    [w,e,e,e,w,e,w],
+    [w,e,w,e,w,e,w],
+    [w,e,e,e,e,e,w],
+    [e,w,w,w,w,e,e]
+    ]).
+
+connessioni([
+            connessione([0,0],[0,1]),
+            connessione([0,1],[1,1]),
+            connessione([1,1],[2,1]),
+            connessione([2,1],[3,1]),
+            connessione([3,1],[4,1]),
+            connessione([3,1],[3,2]),
+            connessione([3,2],[3,3]),
+            connessione([3,3],[2,3]),
+            connessione([3,3],[4,3]),
+            connessione([4,3],[5,3]),
+            connessione([2,3],[1,3]),
+            connessione([4,1],[5,1]),
+            connessione([5,1],[5,2]),
+            connessione([5,2],[5,3]),
+            connessione([5,3],[5,4]),
+            connessione([5,4],[5,5]),
+            connessione([5,5],[4,5]),
+            connessione([4,5],[3,5]),
+            connessione([3,5],[2,5]),
+            connessione([2,5],[1,5]),
+            connessione([5,5],[6,5]),
+            connessione([6,5],[6,6])
+            ]).
+
+labyrinth([RI,CI], [RF,CF], [H]):-
+    connessioni(CS),
+    C = connessione([RI,CI], [RF,CF]),
+    member(C,CS),
+    H = C.
+    
+labyrinth([RI,CI], [RF,CF], [H|T]):-
+    connessioni(CS),
+    C = connessione([RI,CI], [RX,CX]),
+    member(C,CS),
+    H = C,
+    labyrinth([RX,CX], [RF,CF], T).
+    

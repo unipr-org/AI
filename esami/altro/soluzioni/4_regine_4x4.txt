@@ -1,0 +1,70 @@
+riga_corretta([q,w,w,w]).
+riga_corretta([w,q,w,w]).
+riga_corretta([w,w,q,w]).
+riga_corretta([w,w,w,q]).
+riga_corretta([w,w,w,w]).
+
+riga_corretta3([q,w,w]).
+riga_corretta3([w,q,w]).
+riga_corretta3([w,w,q]).
+riga_corretta3([w,w,w]).
+
+riga_corretta2([w,q]).
+riga_corretta2([q,w]).
+riga_corretta2([w,w]).
+
+
+check_riga_colonna_diagolunga(L):-
+    			   riga_corretta(L).
+check_diago_3(L):-
+    riga_corretta3(L).
+
+check_diago_2(L):-
+    riga_corretta2(L).
+
+n_queen([X1,X2,X3,X4],[Y1,Y2,Y3,Y4],
+        [Z1,Z2,Z3,Z4],[T1,T2,T3,T4]):-
+    	R1 = [X1,X2,X3,X4],
+    	R2 = [Y1,Y2,Y3,Y4],
+    	R3 = [Z1,Z2,Z3,Z4],
+    	R4 = [T1,T2,T3,T4],
+    	C1 = [X1,Y1,Z1,T1],
+    	C2 = [X2,Y2,Z2,T2],
+    	C3 = [X3,Y3,Z3,T3],
+    	C4 = [X4,Y4,Z4,T4],
+    	D1 = [X1,Y2,Z3,T4],
+    	D2 = [X4,Y3,Z2,T1],
+    	DSX1 = [X3,Y4],
+    	DSX2 = [X2,Y3,Z4],
+    	DSX3 = [Y1,Z2,T3],
+    	DSX4 = [Z1,T2],
+    	DDX1 = [X2,Y1],
+    	DDX2 = [X3,Y2,Z1],
+    	DDX3 = [Y4,Z3,T2],
+    	DDX4 = [Z4,T3],
+    	check_riga_colonna_diagolunga(R1),
+    	check_riga_colonna_diagolunga(R2),
+    	check_riga_colonna_diagolunga(R3),
+    	check_riga_colonna_diagolunga(R4),
+    	member(q,R1),
+    	member(q,R2),
+    	member(q,R3),
+    	member(q,R4),
+    	check_riga_colonna_diagolunga(C1),
+    	check_riga_colonna_diagolunga(C2),
+    	check_riga_colonna_diagolunga(C3),
+    	check_riga_colonna_diagolunga(C4),
+    	check_riga_colonna_diagolunga(D1),
+    	check_riga_colonna_diagolunga(D2),
+        check_diago_3(DSX2),
+    	check_diago_3(DSX3),
+    	check_diago_3(DDX2),
+    	check_diago_3(DDX3),
+    	check_diago_2(DSX1),
+    	check_diago_2(DSX4),
+    	check_diago_2(DDX1),
+    	check_diago_2(DDX4).
+    	
+    	     
+
+    

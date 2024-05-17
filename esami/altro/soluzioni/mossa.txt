@@ -1,0 +1,58 @@
+punto([[x,x,x],[_,_,_],[_,_,_]], 1) :- !.
+punto([[_,_,_],[x,x,x],[_,_,_]], 1) :- !.
+punto([[_,_,_],[_,_,_],[x,x,x]], 1) :- !.
+punto([[x,_,_],[x,_,_],[x,_,_]], 1) :- !.
+punto([[_,x,_],[_,x,_],[_,x,_]], 1) :- !.
+punto([[_,_,x],[_,_,x],[_,_,x]], 1) :- !.
+punto([[x,_,_],[_,x,_],[_,_,x]], 1) :- !.
+punto([[_,_,x],[_,x,_],[x,_,_]], 1) :- !.
+
+punto([[o,o,o],[_,_,_],[_,_,_]], -1) :- !.
+punto([[_,_,_],[o,o,o],[_,_,_]], -1) :- !.
+punto([[_,_,_],[_,_,_],[o,o,o]], -1) :- !.
+punto([[o,_,_],[o,_,_],[o,_,_]], -1) :- !.
+punto([[_,o,_],[_,o,_],[_,o,_]], -1) :- !.
+punto([[_,_,o],[_,_,o],[_,_,o]], -1) :- !.
+punto([[o,_,_],[_,o,_],[_,_,o]], -1) :- !.
+punto([[_,_,o],[_,o,_],[o,_,_]], -1) :- !.
+
+punto(Tabella, 0) :- \+ member(w, Tabella).
+
+mossaMax(Tabella, _, _) :- 
+    punto(Tabella, 1).
+mossaMax(Tabella, R, C) :- 
+    cercaMossa(Tabella, x, Tabella2, R, C),
+    mossaMin(Tabella2, _, _).
+
+mossaMin(Tabella, _, _) :- 
+    punto(Tabella, -1),
+    false.
+mossaMin(Tabella, R, C) :-
+    cercaMossa(Tabella, o, Tabella2, R, C),
+    mossaMax(Tabella2, _, _).
+
+cercaMossa([[w, A, B], R2, R3], Simbolo, [[Simbolo, A, B], R2, R3], 1, 1).
+cercaMossa([R1, [w, A, B], R3], Simbolo, [R1, [Simbolo, A, B], R3], 2, 1).
+cercaMossa([R1, R2, [w, A, B]], Simbolo, [R1, R2, [Simbolo, A, B]], 3, 1).
+
+cercaMossa([[A, w, B], R2, R3], Simbolo, [[A, Simbolo, B], R2, R3], 1, 2).
+cercaMossa([R1, [A, w, B], R3], Simbolo, [R1, [A, Simbolo, B], R3], 2, 2).
+cercaMossa([R1, R2, [A, w, B]], Simbolo, [R1, R2, [A, Simbolo, B]], 3, 2).
+
+cercaMossa([[A, B, w], R2, R3], Simbolo, [[A, B, Simbolo], R2, R3], 1, 3).
+cercaMossa([R1, [A, B, w], R3], Simbolo, [R1, [A, B, Simbolo], R3], 2, 3).
+cercaMossa([R1, R2, [A, B, w]], Simbolo, [R1, R2, [A, B, Simbolo]], 3, 3).
+
+mossa(Tabella, Riga, Colonna) :-
+    stampa(Tabella),
+    mossaMax(Tabella, Riga, Colonna).
+
+mossa(Tabella, _, _) :- punto(Tabella, 1), !, nl, write('X ha vinto').
+
+%mossa(Tabella, _, _) :- punto(Tabella, -1), !, nl, write('O ha vinto').
+%mossa(Tabella, _, _) :- punto(Tabella, 0), !, nl, write('Pareggio').
+
+stampa([[X1, X2, X3], [X4, X5, X6], [X7, X8, X9]]) :-
+    write(X1), write(' '), write(X2), write(' '), write(X3), nl,
+    write(X4), write(' '), write(X5), write(' '), write(X6), nl,
+    write(X7), write(' '), write(X8), write(' '), write(X9), nl.

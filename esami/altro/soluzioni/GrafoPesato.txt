@@ -1,0 +1,22 @@
+arco(a,b,11).
+arco(b,c,19).
+arco(b,a,15).
+arco(b,d,13).
+arco(c,a,17).
+arco(c,d,18).
+
+percorso(Minimo) :- percorso_minimo(a, d, Minimo, _Percorso).
+
+path(X,Y,Lista,Pesi) :- path2(X,Y,[Y],Lista,Pesi).                               
+path2(X,Y,L,[X|L],Pesi) :- arco(X,Y,Pesi).  % Vera solo nel primo collegamento
+path2(X,Y,L,P,Pesi) :- 
+	arco(Z,Y,Pesi1), 
+    \+(member(Z,L)), 
+    path2(X,Z,[Z|L],P,Pesi2),
+    Pesi is Pesi1+Pesi2.         
+
+percorso_minimo(X, Y, Minimo, Percorso) :-
+    path(X, Y, Percorso,Minimo) , 
+    \+ (path(X, Y,Percorso2, Peso2), 
+        Percorso2 \= Percorso, 
+        Peso2 =< Minimo), !. % Il cut è di bellezza in questo caso

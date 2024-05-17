@@ -1,0 +1,8 @@
+:- use_module(library(clpfd)).
+
+lancio(D1,D2):-
+    Vars = [D1,D2],
+    Vars ins 1..6,
+    label(Vars),
+    S is D1 + D2,
+    S = 7.

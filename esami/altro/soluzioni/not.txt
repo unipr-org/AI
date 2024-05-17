@@ -1,0 +1,17 @@
+tabella_not(F, U) :- val(not(F), U).
+
+val(t, t) :- !.
+val(f, f) :- !.
+
+val(not(X), t) :- val(X, f).
+val(not(X), f) :- val(X, t).
+
+val(and(X, Y), t) :- val(X, t), val(Y, t).
+val(and(X, Y), f) :- val(X, t), val(Y, f).
+val(and(X, Y), f) :- val(X, f), val(Y, t).
+val(and(X, Y), f) :- val(X, f), val(Y, f).
+
+val(or(X, Y), t) :- val(X, t), val(Y, t).
+val(or(X, Y), t) :- val(X, t), val(Y, f).
+val(or(X, Y), t) :- val(X, f), val(Y, t).
+val(or(X, Y), f) :- val(X, f), val(Y, f).

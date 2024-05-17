@@ -1,0 +1,8 @@
+:- use_module(library(clpfd)).
+
+permutazioni(N,Vars) :-
+    length(Vars,N),
+    Vars ins 1..N,
+    all_different(Vars),
+    label(Vars).
+   
