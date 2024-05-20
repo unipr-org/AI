@@ -1,3 +1,21 @@
+% Questa versione utilizza la grammatica G dell'esercizio, introducendo alcune
+% "ottimizzazioni" ricavabili osservando G; infatti, si può osservare che
+% 
+% 1) per NP -> Det CN
+% -	Det è a sua volta espanso in un terminale;
+% -	CN espande in un terminale;
+% => l'espansione di NP "consuma" esattamente 2 termini dalla lista di input.
+%
+% 2) per VP -> TV NP
+% -	TV è espando in un terminale;
+% -	NP per il punto precedente "consuma" 2 termini;
+% => l'espanzione di VP "consuma" esattamente 3 termini.
+%
+% 3) A -> NP VP
+% -	NP consuma 2 termini;
+% -	VP consuma 3 termini;
+% => A consuma 5 termini, in particolare passa i primi 2 elementi della lista a NP e i rimanenti a VP.
+
 sing(X) :-
     member(X, [il,cane,topo,rincorre]).
 plur(X) :-
@@ -17,9 +35,6 @@ a(a(X,Y), L) :-
 np(np(X,Y), L, R) :-
     dt(L, R),
     cn(R, Rnp).
-    
-
-
 np(np(X, Y), [W,Z | R]) :-
     sing(W),
     sing(Z),
