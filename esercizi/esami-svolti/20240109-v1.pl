@@ -1,3 +1,5 @@
+% Realizzato da: Manuel Di Agostino
+% 
 % Questa versione utilizza la grammatica acontestuale riportata nel testo dell'esame.
 % In particolare, il primo argomento è l'albero sintattico prodotto espandendo la produzione e 
 % ogni predicato prende una lista ground L di terminali del linguaggio generato L(G);

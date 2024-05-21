@@ -1,3 +1,5 @@
+% Realizzato da: Manuel Di Agostino
+% 
 % Questa versione utilizza la grammatica G dell'esercizio, introducendo alcune
 % "ottimizzazioni" ricavabili osservando G; infatti, si può osservare che
 % 
