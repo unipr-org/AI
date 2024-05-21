@@ -1,3 +1,5 @@
+% Esercizio visto a lezione il 17/05/2024
+
 node(a).
 node(b).
 node(c).

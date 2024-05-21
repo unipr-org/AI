@@ -1,4 +1,6 @@
-% creare una funzione `extract` per estrarre da
+% Realizzato da: Manuel Di Agostino
+% 
+% Creare una funzione `extract` per estrarre da
 % una lista di nomi tutti quelli singolari
 % o plurali.
 
