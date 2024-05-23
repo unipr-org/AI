@@ -1,5 +1,7 @@
+% dichiarazione numero massimo colori (raffigurati come interi)
 int: max = 3;
 
+% dichiarazione variabili relative a delle zone di una mappa
 var 1 .. max: WA;
 var 1 .. max: NT;
 var 1 .. max: Q;
@@ -8,6 +10,7 @@ var 1 .. max: V;
 var 1 .. max: SA;
 var 1 .. max: T;
 
+% aggiunta constraint per non avere 2 zone adiacenti con lo stesso colore
 constraint WA != NT;
 constraint WA != SA;
 constraint NT != SA;
@@ -18,4 +21,7 @@ constraint SA != NSW;
 constraint SA != V;
 constraint V != NSW;
 
+solve satisfy;
+
+% output personalizzato
 output ["(WA, NT, Q, NSW, V, SA, T): (", show(WA), ", ", show(NT), ", ", show(Q), ", ", show(NSW), ", ", show(V), ", ", show(SA), ", ", show(T), ")\n"];
