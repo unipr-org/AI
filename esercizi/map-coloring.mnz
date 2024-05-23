@@ -1,0 +1,21 @@
+int: max = 3;
+
+var 1 .. max: WA;
+var 1 .. max: NT;
+var 1 .. max: Q;
+var 1 .. max: NSW;
+var 1 .. max: V;
+var 1 .. max: SA;
+var 1 .. max: T;
+
+constraint WA != NT;
+constraint WA != SA;
+constraint NT != SA;
+constraint NT != Q;
+constraint SA != Q;
+constraint Q != NSW;
+constraint SA != NSW;
+constraint SA != V;
+constraint V != NSW;
+
+output ["(WA, NT, Q, NSW, V, SA, T): (", show(WA), ", ", show(NT), ", ", show(Q), ", ", show(NSW), ", ", show(V), ", ", show(SA), ", ", show(T), ")\n"];

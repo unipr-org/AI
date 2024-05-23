@@ -1,0 +1,11 @@
+var 1 .. 6: x;
+var 1 .. 6: y;
+var 1 .. 6: z;
+
+constraint x mod 2 == 0;
+constraint z mod 2 == 0;
+constraint x != z;
+
+solve satisfy;
+
+output ["(x, y, z): (", show(x), ", ", show(y), ", ", show(z), ")\n"];
