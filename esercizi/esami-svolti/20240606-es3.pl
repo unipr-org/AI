@@ -1,4 +1,4 @@
-% Scritto da @manueldiagostino
+%% Realizzato da @manueldiagostino
 % La risoluzione si basa sulla seguente grammatica acontestuale:
 %
 %	 Expr -> AddExpr

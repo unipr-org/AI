@@ -1,5 +1,9 @@
-% Elencare i nodi di un albero visitabili da una sorgente S tramite una visita
-% in ampiezza (BFS).
+%% Realizzato da @manueldiagostino
+% 
+% Il predicato bfs(Source, Result) visita l'albero con sorgente Source tramite
+% una visita in ampiezza (BFS); Result contiene l'elenco dei nodi attraversati.
+% Il predicato bfs_level(Source, Result) visita l'albero suddividendolo per
+% livelli; Result contiene la lista di tutti i livelli trovati.
 
 node(a).
 node(b).
