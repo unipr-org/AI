@@ -73,3 +73,23 @@ bfs_rec([CurrNode | VisitQueue], NodeList, Result) :-
 
 bfs(Source, Result) :-
     bfs_rec([Source], [Source], Result).
+
+
+% non sono rimasti nodi da esplorare nel livello corrente
+enqueue_level_rec(Q, [], [], Q) :- 
+    !.
+enqueue_level_rec([CurrNode | VisitQueue], [CurrNode | RemainingNodesOfLevel], Result, NotVisited) :-
+    enqueue(CurrNode, CurrChildren),
+	append_(CurrChildren, NextChildren, Result),
+    append_(VisitQueue, CurrChildren, NewVisitQueue),
+    enqueue_level_rec(NewVisitQueue, RemainingNodesOfLevel, NextChildren, NotVisited).
+
+bfs_level_rec([], _, []) :-
+    !.
+bfs_level_rec(Q, CurrLevel, Result) :-
+    enqueue_level_rec(Q, CurrLevel, NextLevel, NotVisited),
+    append_([CurrLevel], NextLevels, Result),
+    bfs_level_rec(NotVisited, NextLevel, NextLevels).
+
+bfs_level(Source, Result) :-
+    bfs_level_rec([Source], [Source], Result).
