@@ -59,4 +59,5 @@ dfs_rec([CurrNode | Nodes], VisitedNodes, Result) :-
     dfs_rec(VisitQueue, [CurrNode | VisitedNodes], Result).
 
 dfs(Source, NodeList) :-
+		node(Source),
     dfs_rec([Source], [], NodeList).
