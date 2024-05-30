@@ -25,3 +25,28 @@ count_all(Set, [X], [Result]) :- % caso base
 count_all(Set, [H | Rest], [SingleResult | Result]) :-
     count(Set, H, SingleResult),
     count_all(Set, Rest, Result).
+
+%%%%%%%%%%%%%%%%%% Data una lista, ritorna una lista con atomi univoci
+% ?- unique([a, b, c, d, a, e], R).
+% ?- non_member(x, [a, b, d]).
+
+non_member(Elem, [Elem | _]) :-
+    !,
+    fail.
+non_member(_, []) :- 
+    !.
+non_member(Elem, [_ | Rest]) :-
+    non_member(Elem, Rest).
+    
+unique(Set, Result) :- 
+    my_unique(Set, Result, []).
+
+my_unique([], R, R).
+    
+my_unique([HeadSet | RestSet], Result, Visited) :-
+    non_member(HeadSet, Visited),
+    !,
+    my_unique(RestSet, Result, [HeadSet | Visited]).
+
+my_unique([_ | RestSet], Result, Visited) :-
+    my_unique(RestSet, Result, Visited).
