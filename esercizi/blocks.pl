@@ -1,4 +1,6 @@
 % 
+% Realizzato da @manueldiagostino
+%
 % Obiettivo: definire un agente in grado
 % di manipolare blocchi su di un tavolo.
 % 
