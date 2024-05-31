@@ -1,3 +1,6 @@
+% Realizzato da @manueldiagostino
+% dfs_N() elenca i percorsi a profondità massima N.
+
 :- use_module(library(clpfd)).
 
 non_member(_, []) :-
